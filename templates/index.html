@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Helmet Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🎥 AI Helmet Detection System</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit">Upload & Detect</button>
+    </form>
+
+    {% if warning %}
+        <h2 id="warning-text">{{ warning }}</h2>
+    {% endif %}
+
+    {% if violations is defined %}
+        <h3 style="color:red;">⚠ Violations: {{ violations }}</h3>
+    {% endif %}
+
+    {% if video %}
+        <video width="600" controls autoplay>
+            <source src="{{ video }}" type="video/mp4">
+        </video>
+    {% endif %}
+
+</div>
+
+<!-- 🔊 Alarm Sound -->
+<audio id="alarm" src="{{ url_for('static', filename='alarm.wav') }}"></audio>
+
+<script>
+    const warningText = document.getElementById("warning-text");
+    const alarm = document.getElementById("alarm");
+
+    if (warningText && warningText.innerText.includes("NO HELMET")) {
+        alarm.play();
+    }
+</script>
+
+</body>
+</html>
